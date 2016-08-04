@@ -13,7 +13,7 @@ interface UserOperation {
     hashPassword(password: string): string;
 }
 
-interface UserModel extends api.User, UserOperation, Document { }
+export interface UserModel extends api.User, UserOperation, Document { }
 
 const validateLocalStrategyProperty = function (property) {
     return ((this.provider !== 'local' && !this.updated) || property.length);
@@ -38,6 +38,7 @@ let schema = new Schema({
     username: { type: String, unique: 'Username already exists', required: 'Please fill in a username', lowercase: true, trim: true },
     password: { type: String, default: '' },
     salt: { type: String },
+    access_token: { type: String },
     profileImageURL: { type: String, default: 'modules/users/client/img/profile/default.png' },
     provider: { type: String, required: 'Provider is required' },
     providerData: {},
@@ -110,4 +111,4 @@ export interface IUserStatic extends Model<UserModel> {
 }
 
 
-export let UserModel = <IUserStatic>mongoose.model<UserModel>('user', schema);
+export let userModel = <IUserStatic>mongoose.model<UserModel>('user', schema);

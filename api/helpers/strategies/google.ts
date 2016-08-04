@@ -33,8 +33,10 @@ export class Google {
             // Save the user OAuth profile
             userService.findOrCreate(profile.id, providerUserProfile).then(
                 user => {
-                    
-                    done(null, user);
+                    user.access_token = accessToken;
+                    user.save(function (err, doc) {
+                        done(err, doc);
+                    });
                 },
                 error => done(error, null));
         }));

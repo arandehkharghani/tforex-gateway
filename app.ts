@@ -1,4 +1,4 @@
-let SwaggerExpress = require('swagger-express-mw');
+let swaggerExpress = require('swagger-express-mw');
 let app = require('express')();
 import * as passport from 'passport';
 import * as api from './api';
@@ -37,11 +37,11 @@ let config = {
 
 
 
-SwaggerExpress.create(config, function (err, swaggerExpress) {
+swaggerExpress.create(config, function (err, swagger) {
   if (err) { throw err; }
 
   // install middleware
-  swaggerExpress.register(app);
+  swagger.register(app);
 
   let port = process.env.PORT || 10020;
   app.use(function (req, res, next) {
@@ -54,7 +54,7 @@ SwaggerExpress.create(config, function (err, swaggerExpress) {
 
   app.listen(port);
 
-  if (swaggerExpress.runner.swagger.paths['/hello']) {
+  if (swagger.runner.swagger.paths['/hello']) {
     console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
   }
 });

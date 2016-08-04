@@ -54,6 +54,8 @@ paths:
   /auth/google/callback:
     x-swagger-router-controller: auth.google.controller
     get:
+      security:
+        - oauth2_google: []
       description: Authenticates user with google
       produces:
         - application/json
@@ -96,6 +98,8 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
+      security:
+        - oauth2_google: []
       description: adds a new strategy
       produces:
         - application/json

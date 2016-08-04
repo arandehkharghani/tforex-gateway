@@ -82,3 +82,6 @@ $RECYCLE.BIN/
 # Js files
 *.js
 *.js.map
+
+# app_setting that may contain sensitive information
+app_setting*
