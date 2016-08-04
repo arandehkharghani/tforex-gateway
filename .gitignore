@@ -84,4 +84,4 @@ $RECYCLE.BIN/
 *.js.map
 
 # app_setting that may contain sensitive information
-app_setting*
+app-settings.ts
