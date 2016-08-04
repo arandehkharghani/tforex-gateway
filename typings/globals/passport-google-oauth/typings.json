@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/2373d3f801616faa2bc452f3e71af741ba8b9f1e/passport-google-oauth/passport-google-oauth.d.ts",
+    "raw": "registry:dt/passport-google-oauth#1.0.3+20160619021532",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/2373d3f801616faa2bc452f3e71af741ba8b9f1e/passport-google-oauth/passport-google-oauth.d.ts"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
+  },
+  "globalDependencies": {
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160715232503",
+    "mime": "registry:dt/mime#0.0.0+20160316155526",
+    "node": "registry:dt/node#6.0.0+20160709114037",
+    "passport": "registry:dt/passport#0.2.0+20160720063208",
+    "passport-google-oauth": "registry:dt/passport-google-oauth#1.0.3+20160619021532",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "validator": "registry:dt/validator#4.5.1+20160316155526"
+  }
+}
