@@ -11,11 +11,14 @@ let config = {
   appRoot: __dirname, // required config
   swaggerSecurityHandlers: {
     oauth2_google: function (req, authOrSecDef, scopesOrApiKey, callback) {
+      if (!scopesOrApiKey) {
+        callback(new Error('access denied!'));
+      }
       passport.authenticate('google', { session: false }, function (err, user, info) {
         if (err) {
           callback(new Error('Error in google authenticate'));
         } else if (!user) {
-          callback(new Error('Failed to authenticate user'));
+          callback(new Error('access denied!'));
         } else {
           req.user = user;
           callback();
@@ -35,8 +38,6 @@ let config = {
   },
 };
 
-
-
 swaggerExpress.create(config, function (err, swagger) {
   if (err) { throw err; }
 
@@ -51,6 +52,32 @@ swaggerExpress.create(config, function (err, swagger) {
     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
     next();
   });
+  app.use(passport.initialize());
+  // app.use(passport.session());
+
+  app.get(
+    '/auth/google',
+    passport.authenticate('google', {
+      session: false,
+      scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email',
+      ],
+    })
+  );
+
+  app.get('/auth/google/callback',
+    function (req, res, next) {
+      passport.authenticate('google', {
+        session: false,
+        failureRedirect: api.Config.settings.uiBasePath
+      },
+        function (error, user, info) {
+          if (error) { return next(error); }
+          if (!user) { return res.redirect(api.Config.settings.uiBasePath); }
+          return res.redirect(api.Config.settings.uiBasePath + "/login?access_token=" + user.access_token);
+        })(req, res, next);
+    });
 
   app.listen(port);
 

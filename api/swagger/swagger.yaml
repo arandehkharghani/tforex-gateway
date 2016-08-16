@@ -33,44 +33,6 @@ securityDefinitions:
     in: header
     name: Authorization
 paths:
-  /auth/google:
-    x-swagger-router-controller: auth.google.controller
-    get:
-      description: Authenticates user with google
-      produces:
-        - application/json
-      operationId: authenticateWithGoogle
-      responses:
-        "200":
-          description: Authenticated successfully
-          schema: 
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /auth/google/callback:
-    x-swagger-router-controller: auth.google.controller
-    get:
-      security:
-        - oauth2_google: []
-      description: Authenticates user with google
-      produces:
-        - application/json
-      operationId: authenticationCallBackWithGoogle
-      responses:
-        "200":
-          description: Authenticated successfully
-          schema: 
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-            
   /strategies:
     x-swagger-router-controller: strategy.controller
     get:

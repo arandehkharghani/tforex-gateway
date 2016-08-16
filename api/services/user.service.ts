@@ -20,7 +20,7 @@ export class UserService {
         }
 
         providerUserProfile.created = new Date().toISOString();
-        providerUserProfile.updated = user.updated;
+        providerUserProfile.updated = providerUserProfile.created;
         user = new api.userModel(providerUserProfile);
         await user.save();
         return user;
