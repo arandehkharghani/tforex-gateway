@@ -1,6 +1,5 @@
 export interface User {
     id?: string | number;
-    access_token?: string;
     firstName: string;
     lastName: string;
     displayName: string;

@@ -38,7 +38,6 @@ export class Google {
                 // Save the user OAuth profile
                 userService.findOrCreate(providerUserProfile.email, providerUserProfile).then(
                     user => {
-                        user.access_token = accessToken;
                         user.save(function (err, doc) {
                             done(err, doc);
                         });

@@ -1,50 +1,24 @@
 let swaggerExpress = require('swagger-express-mw');
 let app = require('express')();
+import * as cookieParser from 'cookie-parser';
 import * as passport from 'passport';
+
 import * as api from './api';
+
+let jwtService = new api.JwtTokenService();
 
 module.exports = app; // for testing
 
 api.Google.use();
 
-let config = {
-  appRoot: __dirname, // required config
-  swaggerSecurityHandlers: {
-    oauth2_google: function (req, authOrSecDef, scopesOrApiKey, callback) {
-      if (!scopesOrApiKey) {
-        callback(new Error('access denied!'));
-      }
-      passport.authenticate('google', { session: false }, function (err, user, info) {
-        if (err) {
-          callback(new Error('Error in google authenticate'));
-        } else if (!user) {
-          callback(new Error('access denied!'));
-        } else {
-          req.user = user;
-          callback();
-        }
-      })(req, null, callback);
-    },
-    api_key: function (req, authOrSecDef, scopesOrApiKey, callback) {
-      console.log('in apiKeySecurity (req: ' + JSON.stringify(req.headers) + ', def: ' +
-        JSON.stringify(authOrSecDef) + ', scopes: ' + scopesOrApiKey + ')');
-      // your security code
-      if ('1234' === scopesOrApiKey) {
-        callback();
-      } else {
-        callback(new Error('access denied!'));
-      }
-    },
-  },
-};
-
-swaggerExpress.create(config, function (err, swagger) {
+swaggerExpress.create(api.swaggerConfig, function (err, swagger) {
   if (err) { throw err; }
 
   // install middleware
   swagger.register(app);
 
   let port = process.env.PORT || 10020;
+
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -52,7 +26,10 @@ swaggerExpress.create(config, function (err, swagger) {
     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
     next();
   });
+
   app.use(passport.initialize());
+  app.use(cookieParser());
+
   // app.use(passport.session());
 
   app.get(
@@ -70,12 +47,16 @@ swaggerExpress.create(config, function (err, swagger) {
     function (req, res, next) {
       passport.authenticate('google', {
         session: false,
-        failureRedirect: api.Config.settings.uiBasePath
+        failureRedirect: api.Config.settings.uiBasePath,
       },
-        function (error, user, info) {
+        function (error, user: api.User, info) {
           if (error) { return next(error); }
           if (!user) { return res.redirect(api.Config.settings.uiBasePath); }
-          return res.redirect(api.Config.settings.uiBasePath + "/login?access_token=" + user.access_token);
+          let token = jwtService.signToken(user);
+          // to prevent from csrf attack we sent back a XSRF-TOKEN in a cookie  
+          res.cookie('XSRF-TOKEN', token.xsrf, { maxAge: 900000, httpOnly: false });
+          res.cookie('JWT-TOKEN', token.jwt, { maxAge: 900000, httpOnly: true });
+          return res.redirect(api.Config.settings.uiBasePath + "/login?access_token=" + token.jwt);
         })(req, res, next);
     });
 

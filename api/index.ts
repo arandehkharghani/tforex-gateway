@@ -11,7 +11,10 @@ export * from './interfaces/user.interface';
 
 export * from './models/strategy.model';
 export * from './models/user.model';
+
 export * from './helpers/strategies/google';
+export * from './helpers/jwt-token.service';
+export * from './helpers/swagger-config';
 
 export * from './services/strategy.service';
 export * from './services/user.service';
