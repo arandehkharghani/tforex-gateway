@@ -1,34 +1,54 @@
-let swaggerExpress = require('swagger-express-mw');
-let app = require('express')();
-import * as cookieParser from 'cookie-parser';
 import * as passport from 'passport';
+import * as cookieParser from 'cookie-parser';
 
 import * as api from './api';
 
+let swaggerExpress = require('swagger-express-mw');
+
+let cors = require('cors');
+
+let app = require('express')();
 let jwtService = new api.JwtTokenService();
 
 module.exports = app; // for testing
 
 api.Google.use();
 
-swaggerExpress.create(api.swaggerConfig, function (err, swagger) {
+
+app.use(passport.initialize());
+app.use(cookieParser());
+
+export let swaggerConfig = {
+  appRoot: __dirname, // required config
+  swaggerSecurityHandlers: api.swaggerSecurityConfig,
+};
+
+let corsOptions = {
+  credentials: true,
+  origin: 'http://localhost:8080',
+};
+
+
+swaggerExpress.create(swaggerConfig, function (err, swagger) {
   if (err) { throw err; }
+
+
+  app.use(function (req, res, next) {
+    //  res.header("Access-Control-Allow-Credentials", "true");
+    //  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    //  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    //  res.header("Access-Control-Allow-Headers", "Content-Type");
+    //  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+    next(); // THIS SHOULD BE A BUG THAT HEADER IS SET WHEN CALLING NEXT()
+    // res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  });
+
+  app.use(cors(corsOptions));
 
   // install middleware
   swagger.register(app);
 
   let port = process.env.PORT || 10020;
-
-  app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-    next();
-  });
-
-  app.use(passport.initialize());
-  app.use(cookieParser());
 
   // app.use(passport.session());
 

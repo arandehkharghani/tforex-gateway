@@ -28,16 +28,16 @@ securityDefinitions:
 #    x-authroization-operation-id: authenticateWithGoogle
 #    tokenUrl: http://127.0.0.1:10020/auth/google/callback
 #    x-token-operation-id: authenticationCallBackWithGoogle
-  oauth2_google:
+  jwt:
     type: apiKey
     in: header
-    name: Authorization
+    name: JWT-TOKEN
 paths:
   /strategies:
     x-swagger-router-controller: strategy.controller
     get:
       security:
-        - oauth2_google: []
+        - jwt: []
       description: Returns a list of available strategies
       produces:
         - application/json
@@ -61,7 +61,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     post:
       security:
-        - oauth2_google: []
+        - jwt: []
       description: adds a new strategy
       produces:
         - application/json
@@ -84,7 +84,7 @@ paths:
     x-swagger-router-controller: hello_world
     get:
       security:
-        - oauth2_google: []
+        - jwt: []
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
       operationId: hello
