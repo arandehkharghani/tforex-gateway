@@ -1,20 +1,14 @@
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
-
 import * as api from './api';
-
 let swaggerExpress = require('swagger-express-mw');
-
 let cors = require('cors');
-
 let app = require('express')();
 let jwtService = new api.JwtTokenService();
-
 module.exports = app; // for testing
+let port = process.env.PORT || 10020;
 
 api.Google.use();
-
-
 app.use(passport.initialize());
 app.use(cookieParser());
 
@@ -25,32 +19,19 @@ export let swaggerConfig = {
 
 let corsOptions = {
   credentials: true,
-  origin: 'http://localhost:8080',
+  origin: api.Config.settings.uiBasePath,
 };
-
 
 swaggerExpress.create(swaggerConfig, function (err, swagger) {
   if (err) { throw err; }
 
 
   app.use(function (req, res, next) {
-    //  res.header("Access-Control-Allow-Credentials", "true");
-    //  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-    //  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    //  res.header("Access-Control-Allow-Headers", "Content-Type");
-    //  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-    next(); // THIS SHOULD BE A BUG THAT HEADER IS SET WHEN CALLING NEXT()
-    // res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    next();
   });
 
   app.use(cors(corsOptions));
-
-  // install middleware
   swagger.register(app);
-
-  let port = process.env.PORT || 10020;
-
-  // app.use(passport.session());
 
   app.get(
     '/auth/google',

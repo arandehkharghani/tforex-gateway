@@ -31,9 +31,6 @@ export let swaggerSecurityConfig = {
         }
     },
     jwt: function (req, authOrSecDef, scopesOrApiKey, callback) {
-        console.log('in jwt (req: ' + JSON.stringify(req.headers) + ', def: ' +
-            JSON.stringify(authOrSecDef) + ', scopes: ' + scopesOrApiKey + ')');
-
         let token = req.cookies ? req.cookies["JWT-TOKEN"] : null;
         let xsrfTokenInHeader = req.headers ? req.headers["x-xsrf-token"] : null;
 

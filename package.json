@@ -50,7 +50,7 @@
     "codelyzer": "0.0.19"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node app.js", 
     "test": "swagger project test"
   }
 }
