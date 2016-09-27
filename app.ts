@@ -19,7 +19,16 @@ export let swaggerConfig = {
 
 let corsOptions = {
   credentials: true,
-  origin: api.Config.settings.uiBasePath,
+  origin: function (origin, callback) {
+    if (origin === undefined) {
+      callback(null, false);
+    } else {
+      // change wordnik.com to your allowed domain. 
+      let match = origin.match("^(.*)?.localhost.com(\:[0-9]+)|(.*)?.127.0.0.1(\:[0-9]+)?");
+      let allowed = (match !== null && match.length > 0);
+      callback(null, origin);
+    }
+  },
 };
 
 swaggerExpress.create(swaggerConfig, function (err, swagger) {

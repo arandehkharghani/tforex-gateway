@@ -7,16 +7,22 @@ export * from './enums/granularity.enum';
 export * from './interfaces/strategy.interface';
 export * from './interfaces/user.interface';
 
-
-
-export * from './models/strategy.model';
 export * from './models/user.model';
+
+export * from './proxies/shared/authentication.interface';
+export * from './proxies/shared/http-basic-auth.service';
+export * from './proxies/shared/api-key-auth.service';
+export * from './proxies/shared/o-auth.service';
+export * from './proxies/shared/void-auth.service';
+export * from './proxies/shared/proxy-base.service';
+export * from './proxies/shared/default-api-key.enum';
+export * from './proxies/strategy-proxy.service';
+
 
 export * from './helpers/strategies/google';
 export * from './helpers/jwt-token.service';
 export * from './helpers/swagger-config';
 
-export * from './services/strategy.service';
 export * from './services/user.service';
 
 export * from './controllers/strategy.controller';
