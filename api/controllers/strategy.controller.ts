@@ -1,15 +1,20 @@
 import * as api from '../../api';
 
-export async function getStrategies(req, res) {
+export async function getStrategies(req, res, next) {
     // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
-    let _id = req.swagger.params._id.value;
+    let _id: string = null;
+    if (req.swagger.params && req.swagger.params._id) {
+        _id = req.swagger.params._id.value;
+    }
+
     let strategyProxy = new api.StrategyProxyService();
 
     try {
         let result = await strategyProxy.get(_id);
         res.json(result.body);
     } catch (err) {
-        throw new Error(err);
+        res.statusCode = 502; // bad gateway
+        next(err);
     }
 }
 export async function postStrategies(req, res) {

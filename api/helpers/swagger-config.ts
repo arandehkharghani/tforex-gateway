@@ -21,8 +21,6 @@ export let swaggerSecurityConfig = {
         })(req, null, callback);
     },
     api_key: function (req, authOrSecDef, scopesOrApiKey, callback) {
-        console.log('in apiKeySecurity (req: ' + JSON.stringify(req.headers) + ', def: ' +
-            JSON.stringify(authOrSecDef) + ', scopes: ' + scopesOrApiKey + ')');
         // your security code
         if ('1234' === scopesOrApiKey) {
             callback();
