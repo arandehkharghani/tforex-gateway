@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Startegy Service
+  title: Gateway Service
 # during dev, should point to your local machine
 host: localhost:10020
 # basePath prefixes all resource paths 
@@ -59,7 +59,7 @@ paths:
           schema: 
             type: array
             items:
-              $ref: "#/definitions/Strategy"
+              $ref: "#/definitions/StrategyQuery"
         default:
           description: Error
           schema:
@@ -115,6 +115,7 @@ paths:
 # complex objects have schema definitions
 definitions:
   Strategy:
+ #   discriminator: strategyType
     type: object
     required:
       - id
@@ -123,6 +124,8 @@ definitions:
       - createdTime
       - isActive
       - granularity
+      - postedBy
+   #   - strategyType # for inheritance
     properties:
       id:
         type: string
@@ -144,6 +147,16 @@ definitions:
           - H1
           - H4
           - D1
+      postedBy:
+        type: string
+    #  strategyType:
+    #    type: string
+  StrategyQuery:
+    allOf:
+      - $ref: "#/definitions/Strategy"
+      - properties:
+          postedBy_displayName:
+            type: string
   HelloWorldResponse:
     required:
       - message

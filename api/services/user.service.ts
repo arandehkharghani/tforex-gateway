@@ -1,10 +1,12 @@
 import * as api from '../../api';
 
 export class UserService {
-    public async get(id: string = null): Promise<api.UserModel[]> {
-        let result: api.User[] = [];
-        let data = await api.userModel.find({}).exec();
-        return data;
+    public async get(id: string | number = null): Promise<api.UserModel[] | api.UserModel> {
+        if (id) {
+            return await api.userModel.findById(id.toString()).exec();
+        } else {
+            return await api.userModel.find({}).exec();
+        }
     }
 
     public async create(user: api.User): Promise<api.UserModel> {

@@ -8,10 +8,12 @@ export async function getStrategies(req, res, next) {
     }
 
     let strategyProxy = new api.StrategyProxyService();
+    let strategyService = new api.StrategyService();
 
     try {
         let result = await strategyProxy.get(_id);
-        res.json(result.body);
+        let strategies = await strategyService.get(result.body);
+        res.json(strategies);
     } catch (err) {
         res.statusCode = 502; // bad gateway
         next(err);

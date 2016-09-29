@@ -1,3 +1,5 @@
+import * as api from '../../../api';
+
 export interface Strategy {
     id?: string | number;
     name: string;
@@ -5,4 +7,5 @@ export interface Strategy {
     createdTime: string;
     isActive: boolean;
     granularity: string;
+    postedBy: string | number;
 }
