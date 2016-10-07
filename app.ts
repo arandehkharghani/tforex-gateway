@@ -62,11 +62,15 @@ swaggerExpress.create(swaggerConfig, function (err, swagger) {
         function (error, user: api.User, info) {
           if (error) { return next(error); }
           if (!user) { return res.redirect(api.Config.settings.uiBasePath); }
-          let token = jwtService.signToken(user);
-          // to prevent from csrf attack we sent back a XSRF-TOKEN in a cookie  
-          res.cookie('XSRF-TOKEN', token.xsrf, { maxAge: 900000, httpOnly: false });
-          res.cookie('JWT-TOKEN', token.jwt, { maxAge: 900000, httpOnly: true });
-          return res.redirect(api.Config.settings.uiBasePath + "/login?access_token=" + token.jwt);
+          try {
+            let token = jwtService.signToken(user);
+            // to prevent from csrf attack we sent back a XSRF-TOKEN in a cookie  
+            res.cookie('XSRF-TOKEN', token.xsrf, { maxAge: 900000, httpOnly: false });
+            res.cookie('JWT-TOKEN', token.jwt, { maxAge: 900000, httpOnly: true });
+            return res.redirect(api.Config.settings.uiBasePath + "/#/login?user_id=" + user.id);
+          } catch (err) {
+            return next(err);
+          }
         })(req, res, next);
     });
 

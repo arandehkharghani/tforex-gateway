@@ -5,16 +5,30 @@ import * as api from '../../api';
 
 export class JwtTokenService {
     public signToken(user: api.User): JwtTokenServiceData {
+        if (!user || !user.id) {
+            throw new Error('user is not defined to sign the jwt token');
+        }
+
+        let userInPayload = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            displayName: user.displayName,
+            userName: user.username,
+            created: user.created,
+            updated: user.updated,
+        };
         let xsrfToken = uuid.v1();
 
         let payload = {
             xsrfToken: xsrfToken,
+            user: userInPayload,
         };
         let options: jwt.SignOptions = {
             expiresIn: api.Config.settings.expirationJwtInMinutes * 60,
             issuer: 'tforex-gateway',
             jwtid: 'uniqueId',
-            subject: user.displayName,
+            subject: user.id.toString(),
         };
         let token = jwt.sign(payload, api.Config.settings.jwtSecret, options);
 

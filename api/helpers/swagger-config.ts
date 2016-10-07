@@ -23,6 +23,15 @@ export let swaggerSecurityConfig = {
     api_key: function (req, authOrSecDef, scopesOrApiKey, callback) {
         // your security code
         if ('1234' === scopesOrApiKey) {
+            req.user = {
+                id: 'id',
+                firstName: 'first name',
+                lastName: 'last name',
+                displayName: 'display name',
+                userName: 'user name',
+                created: new Date().toISOString(),
+                updated: new Date().toISOString(),
+            };
             callback();
         } else {
             callback(new Error('access denied!'));
@@ -50,6 +59,7 @@ export let swaggerSecurityConfig = {
                     callback(new Error('no jwt-token provided!'));
                     return;
                 }
+                req.user = payload.user;
                 callback();
                 return;
             }

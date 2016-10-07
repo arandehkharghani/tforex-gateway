@@ -41,8 +41,8 @@ paths:
     x-swagger-router-controller: strategy.controller
     get:
       security:
-      - jwt: []
-      - api_key: []
+        - jwt: []
+        - api_key: []
       description: Returns a list of available strategies
       produces:
         - application/json
@@ -110,6 +110,29 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /user:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user.controller
+    get:
+      security:
+        - api_key: []
+        - jwt: []
+      description: Returns the current authenticated user to the caller
+      # used as the method name of the controller
+      produces:
+        - application/json
+      operationId: getUser
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -157,6 +180,25 @@ definitions:
       - properties:
           postedBy_displayName:
             type: string
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      displayName:
+        type: string
+      userName:
+        type: string
+      updated:
+        type: string
+        format: date-time
+      created:
+        type: string
+        format: date-time
   HelloWorldResponse:
     required:
       - message

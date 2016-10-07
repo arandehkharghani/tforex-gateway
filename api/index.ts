@@ -28,4 +28,5 @@ export * from './services/strategy.service';
 export * from './services/user.service';
 
 export * from './controllers/strategy.controller';
+export * from './controllers/user.controller';
 
