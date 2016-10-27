@@ -40,6 +40,8 @@ paths:
   /strategies:
     x-swagger-router-controller: strategy.controller
     get:
+      tags: 
+        - strategy
       security:
         - jwt: []
         - api_key: []
@@ -65,6 +67,8 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
+      tags: 
+        - strategy
       security:
         - jwt: []
       description: adds a new strategy
@@ -83,7 +87,34 @@ paths:
           description: OK - created successfully
           schema: 
             $ref: "#/definitions/Strategy"
-
+  /traderm5/create:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: trader-m5.controller
+    post:
+      tags: 
+        - trader-m5
+      security:
+        - jwt: []
+        - api_key: []
+      description: adds a new trader-m5 for a user using the strategy passed
+      operationId: create
+      parameters:
+        - name: payload
+          description: the required input for the event to create
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/TraderEventPayload"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/EventResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
@@ -114,6 +145,8 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: user.controller
     get:
+      tags: 
+        - user
       security:
         - api_key: []
         - jwt: []
@@ -199,6 +232,31 @@ definitions:
       created:
         type: string
         format: date-time
+  TraderEventPayload:
+    type: object
+    required:
+      - userId
+      - strategyId
+      - instrument
+    properties:
+      strategyId:
+        type: string
+        description: the trader's strategy
+        default: 5788751b5ff4760ceb704ec1
+      userId:
+        type: string
+        description: the owner of the trader
+        default: 57b16c90b285f00a0c301318
+      instrument:
+        type: string
+        enum:
+          - AUD_USD
+  EventResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
   HelloWorldResponse:
     required:
       - message

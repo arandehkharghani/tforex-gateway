@@ -78,7 +78,7 @@ schema.pre('validate', function (next) {
  */
 schema.methods.hashPassword = function (password): string {
     if (this.salt && password) {
-        return crypto.pbkdf2Sync(password, new Buffer(this.salt, 'base64'), 10000, 64).toString('base64');
+        return crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'base64').toString('base64');
     } else {
         return password;
     }
