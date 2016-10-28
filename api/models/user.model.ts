@@ -91,7 +91,7 @@ schema.methods.authenticate = function (password): boolean {
     return this.password === this.hashPassword(password);
 };
 
-schema.statics.findUniqueUsername = async function (username, suffix): Promise<string> {
+schema.statics.findUniqueUsername = async function (username, suffix): Promise<string | undefined> {
     let _this: IUserStatic = this;
     let possibleUsername = username.toLowerCase() + (suffix || '');
     try {

@@ -4,10 +4,17 @@ export * from './helpers/db/data-access';
 
 export * from './enums/granularity.enum';
 export * from './enums/instrument.enum';
+export * from './enums/trader-status.enum';
 
 export * from './interfaces/strategy/strategy.interface';
 export * from './interfaces/strategy/strategy-query.interface';
+
 export * from './interfaces/user/user.interface';
+
+export * from './interfaces/trader/trader-query.interface';
+export * from './interfaces/trader/trader-event-payload.interface';
+export * from './interfaces/event-response.interface';
+
 
 export * from './models/user.model';
 
@@ -29,6 +36,7 @@ export * from './helpers/swagger-config';
 
 export * from './services/strategy.service';
 export * from './services/user.service';
+export * from './services/trader.service';
 
 export * from './controllers/strategy.controller';
 export * from './controllers/user.controller';

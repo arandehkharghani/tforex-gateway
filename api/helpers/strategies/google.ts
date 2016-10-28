@@ -24,11 +24,11 @@ export class Google {
 
                 // Create the user OAuth profile
                 let providerUserProfile: api.User = {
-                    firstName: profile.name.givenName,
-                    lastName: profile.name.familyName,
+                    firstName: profile.name ? profile.name.givenName : 'undefined',
+                    lastName: profile.name ? profile.name.familyName : 'undefined',
                     displayName: profile.displayName,
-                    email: profile.emails[0].value,
-                    username:  profile.emails[0].value,
+                    email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : 'undefined',
+                    username: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : 'undefined',
                     profileImageURL: (providerData.picture) ? providerData.picture : undefined,
                     provider: 'google',
                     // providerIdentifierField: 'id',

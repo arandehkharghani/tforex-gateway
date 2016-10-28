@@ -11,8 +11,8 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
     * adds a new trader-m5 for a user using the strategy passed
     * @param body the required input for the event to create
     */
-    public create(payload: TraderEventPayload): Promise<{ response: http.ClientResponse; body: EventResponse; }> {
-        const localVarPath = this.basePath + '/trader/create';
+    public create(payload: api.TraderEventPayload): Promise<{ response: http.ClientResponse; body: api.EventResponse; }> {
+        const localVarPath = this.basePath + '/traders';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -46,7 +46,69 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: EventResponse; }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: api.EventResponse; }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
+                }
+            });
+        });
+    }
+    /**
+    * 
+    * gets all trader-m5 for a user
+    * @param userId the owner of the traders
+    * @param id the optional trader id
+    */
+    public get(userId: string, id?: string): Promise<{ response: http.ClientResponse; body: Array<api.TraderQuery>; }> {
+        const localVarPath = this.basePath + '/traders';
+        let queryParameters: any = {};
+        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let formParams: any = {};
+
+
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling get.');
+        }
+
+        if (userId !== undefined) {
+            queryParameters['userId'] = userId;
+        }
+
+        if (id !== undefined) {
+            queryParameters['_id'] = id;
+        }
+
+        let useFormData = false;
+
+        let requestOptions: request.Options = {
+            method: 'GET',
+            qs: queryParameters,
+            headers: headerParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
+
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
+        }
+        return new Promise<{ response: http.ClientResponse; body: Array<api.TraderQuery>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -63,20 +125,5 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
 }
 
 
-export interface TraderEventPayload {
-    /**
-    * the trader's strategy
-    */
-    strategyId: string;
-    /**
-    * the owner of the trader
-    */
-    userId: string;
-    instrument: api.InstrumentEnum;
-}
 
 
-
-export interface EventResponse {
-    message: string;
-}

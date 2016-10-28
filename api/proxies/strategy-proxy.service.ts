@@ -7,7 +7,7 @@ export class StrategyProxyService extends api.ProxyBaseService {
     constructor() {
         super(api.Config.settings.strategiesBasePath);
     }
-    public async get(id: string = null): Promise<{ response: http.ClientResponse, body: api.Strategy[]; }> {
+    public async get(id: string | null = null): Promise<{ response: http.ClientResponse, body: api.Strategy[]; }> {
         const localVarPath = this.basePath + '/strategies';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);

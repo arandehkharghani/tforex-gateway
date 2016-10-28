@@ -12,7 +12,7 @@ export class ApiKeyAuthService implements api.Authentication {
     public applyToRequest(requestOptions: request.Options): void {
         if (this.location === "query") {
             (<any>requestOptions.qs)[this.paramName] = this.apiKey;
-        } else if (this.location === "header") {
+        } else if (this.location === "header" && requestOptions.headers) {
             requestOptions.headers[this.paramName] = this.apiKey;
         }
     }

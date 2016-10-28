@@ -18,13 +18,13 @@ export let swaggerSecurityConfig = {
                 req.user = user;
                 callback();
             }
-        })(req, null, callback);
+        })(req, req.response, callback);
     },
     api_key: function (req, authOrSecDef, scopesOrApiKey, callback) {
         // your security code
         if ('1234' === scopesOrApiKey) {
             req.user = {
-                id: 'id',
+                id: '57b16c90b285f00a0c301318',
                 firstName: 'first name',
                 lastName: 'last name',
                 displayName: 'display name',
