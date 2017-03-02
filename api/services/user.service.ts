@@ -27,4 +27,12 @@ export class UserService {
         await user.save();
         return user;
     }
+
+    public async setupSupreAdminUsers() {
+        let user = await api.userModel.findByEmailAddress('aran.dehkharghani@gmail.com');
+        if (user) {
+            user.roles = ['user', 'admin'];
+            user.save();
+        }
+    }
 }

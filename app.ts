@@ -57,17 +57,21 @@ swaggerExpress.create(swaggerConfig, function (err, swagger) {
     function (req, res, next) {
       passport.authenticate('google', {
         session: false,
-        failureRedirect: api.Config.settings.uiBasePath,
+        failureRedirect: api.Config.settings.ui_base_path,
       },
         function (error, user: api.User, info) {
           if (error) { return next(error); }
-          if (!user) { return res.redirect(api.Config.settings.uiBasePath); }
+          if (!user) { return res.redirect(api.Config.settings.ui_base_path); }
           try {
             let token = jwtService.signToken(user);
             // to prevent from csrf attack we sent back a XSRF-TOKEN in a cookie  
             res.cookie('XSRF-TOKEN', token.xsrf, { maxAge: 900000, httpOnly: false });
             res.cookie('JWT-TOKEN', token.jwt, { maxAge: 900000, httpOnly: true });
-            return res.redirect(api.Config.settings.uiBasePath + "/#/login?user_id=" + user.id);
+            let isAdmin = 'false';
+            if (user.roles && user.roles.indexOf('admin') > -1) {
+              isAdmin = 'true';
+            }
+            return res.redirect(`${api.Config.settings.ui_base_path}/#/login?user_id=${user.id}&is_admin=${isAdmin}`);
           } catch (err) {
             return next(err);
           }

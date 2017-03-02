@@ -91,6 +91,11 @@ schema.methods.authenticate = function (password): boolean {
     return this.password === this.hashPassword(password);
 };
 
+export interface IUserStatic extends Model<UserModel> {
+    findUniqueUsername: (username: string, suffix: string) => Promise<string>;
+    findByEmailAddress(emailAddress: string): Promise<UserModel>;
+}
+
 schema.statics.findUniqueUsername = async function (username, suffix): Promise<string | undefined> {
     let _this: IUserStatic = this;
     let possibleUsername = username.toLowerCase() + (suffix || '');
@@ -106,9 +111,8 @@ schema.statics.findUniqueUsername = async function (username, suffix): Promise<s
     }
 };
 
-export interface IUserStatic extends Model<UserModel> {
-    findUniqueUsername: (username: string, suffix: string) => Promise<string>;
-}
-
+schema.statics.findByEmailAddress = async (emailAddress: string) => {
+    return this.userModel.findOne({ email: emailAddress }).exec();
+};
 
 export let userModel = <IUserStatic>mongoose.model<UserModel>('user', schema);

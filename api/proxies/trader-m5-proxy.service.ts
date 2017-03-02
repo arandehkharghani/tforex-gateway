@@ -5,7 +5,7 @@ import * as api from '../../api';
 
 export class TraderM5ProxyService extends api.ProxyBaseService {
     constructor() {
-        super(api.Config.settings.traderM5BasePath);
+        super(api.Config.settings.trader_M5_base_path);
     }
     /*
     * adds a new trader-m5 for a user using the strategy passed

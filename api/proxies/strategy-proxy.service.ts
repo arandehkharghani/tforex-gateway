@@ -5,7 +5,7 @@ import * as api from '../../api';
 
 export class StrategyProxyService extends api.ProxyBaseService {
     constructor() {
-        super(api.Config.settings.strategiesBasePath);
+        super(api.Config.settings.strategies_base_path);
     }
     public async get(id: string | null = null): Promise<{ response: http.ClientResponse, body: api.Strategy[]; }> {
         const localVarPath = this.basePath + '/strategies';
