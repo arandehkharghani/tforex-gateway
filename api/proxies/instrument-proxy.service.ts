@@ -7,15 +7,20 @@ export class InstrumentProxyService extends api.ProxyBaseService {
     constructor() {
         super(api.Config.settings.instruments_base_path);
     }
-    public async get(id: string | null = null): Promise<{ response: http.ClientResponse, body: api.Instrument[]; }> {
+    /**
+    *
+    * Returns a list of instruments or a single one if provided the title
+    * @param title The title of a specific instrument
+    */
+    public getInstruments(title?: string): Promise<{ response: http.ClientResponse; body: api.Instrument[]; }> {
         const localVarPath = this.basePath + '/instruments';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
 
 
-        if (id !== undefined) {
-            queryParameters['_id'] = id;
+        if (title !== undefined) {
+            queryParameters['title'] = title;
         }
 
         let useFormData = false;
@@ -45,7 +50,7 @@ export class InstrumentProxyService extends api.ProxyBaseService {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && (response.statusCode >= 200 && response.statusCode <= 299)) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });

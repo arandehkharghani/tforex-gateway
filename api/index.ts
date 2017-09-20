@@ -15,7 +15,6 @@ export * from './interfaces/user/user.interface';
 
 export * from './interfaces/trader/trader-query.interface';
 export * from './interfaces/trader/trader-event-payload.interface';
-export * from './interfaces/candle/create-candle-request.interface';
 export * from './interfaces/event-response.interface';
 
 
@@ -32,7 +31,6 @@ export * from './proxies/shared/default-api-key.enum';
 export * from './proxies/strategy-proxy.service';
 export * from './proxies/instrument-proxy.service';
 export * from './proxies/trader-m5-proxy.service';
-export * from './proxies/candle-proxy.service';
 
 
 export * from './helpers/strategies/google';
@@ -49,5 +47,4 @@ export * from './controllers/strategy.controller';
 export * from './controllers/instrument.controller';
 export * from './controllers/trader-m5.controller';
 export * from './controllers/user.controller';
-export * from './controllers/candle.controller';
 

@@ -1,7 +1,7 @@
 import * as api from '../../api';
 
 export class UserService {
-    public async get(id: string | number | null = null): Promise<api.UserModel[] | api.UserModel> {
+    public async get(id: string | number | null = null): Promise<api.UserModel[] | api.UserModel | null> {
         if (id) {
             return await api.userModel.findById(id.toString()).exec();
         } else {

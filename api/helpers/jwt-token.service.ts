@@ -1,10 +1,10 @@
 import * as jwt from 'jsonwebtoken';
-import * as uuid from 'node-uuid';
+import * as uuid from 'uuid';
 
 import * as api from '../../api';
 
 export class JwtTokenService {
-    public signToken(user: api.User): JwtTokenServiceData {
+    public signToken(user: api.UserModel): JwtTokenServiceData {
         if (!user || !user.id) {
             throw new Error('user is not defined to sign the jwt token');
         }

@@ -3,7 +3,7 @@ import * as api from '../../../api';
 export class ProxyBaseService {
     protected basePath = '';
     protected defaultHeaders: any = {};
-    protected _useQuerystring: boolean = false;
+    protected _useQuerystring = false;
 
     protected authentications = {
         'default': <api.Authentication>new api.VoidAuthService(),
@@ -31,12 +31,12 @@ export class ProxyBaseService {
         this.authentications[api.DefaultApiKeysEnum[key]].apiKey = value;
     }
 
-    protected extendObj<T1, T2>(objA: T1, objB: T2) {
+    protected extendObj<T1, T2 extends T1>(objA: T1 & T2, objB: T2): T1 & T2 {
         for (let key in objB) {
             if (objB.hasOwnProperty(key)) {
                 objA[key] = objB[key];
             }
         }
-        return <T1 & T2>objA;
+        return objA;
     }
 }

@@ -51,7 +51,7 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -61,7 +61,7 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
         });
     }
     /**
-    * 
+    *
     * gets all trader-m5 for a user
     * @param userId the owner of the traders
     * @param id the optional trader id
@@ -113,7 +113,7 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });

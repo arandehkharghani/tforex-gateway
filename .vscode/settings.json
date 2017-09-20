@@ -1,7 +1,17 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "editor.fontFamily": "Consolas",
-    "editor.fontSize": 17,
     "editor.tabCompletion": true,
-    "typescript.check.workspaceVersion": false
+    "files.exclude": {
+        // include the defaults from VS Code
+        "**/.git": true,
+        "**/.DS_Store": true,
+        // exclude .js and .js.map files, when in a TypeScript project
+        "**/*.js": {
+            "when": "$(basename).ts"
+        },
+        "**/*.js.map": true
+    },
+    "search.exclude": {
+        "**/js": true
+    }
 }

@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "0.0.1"
+  version: "1.0.0"
   title: Gateway Service
 # during dev, should point to your local machine
 host: localhost:10020
@@ -87,79 +87,7 @@ paths:
           description: OK - created successfully
           schema: 
             $ref: "#/definitions/Strategy"
-  /candles:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: candle.controller
-    get:
-      tags: 
-        - candle
-      security:
-        - jwt: []
-        - api_key: []
-      description: gets candles of an instrument by granularity and time
-      operationId: getCandles
-      parameters:
-        - name: instrument
-          description: the instrument of the candles
-          in: query
-          required: true
-          type: string
-          enum:
-            - AUD_USD
-        - name: granularity
-          description: the granularity in which the candles are fetched
-          type: string
-          in: query
-          enum:
-            - M5
-        - name: timeFrom
-          description: the start time for the candles
-          type: string
-          in: query
-          format: date-time
-          required: true
-        - name: timeTo
-          description: the end time for the candles
-          type: string
-          in: query
-          format: date-time
-          required: false
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Candle"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    post:
-      tags: 
-        - candle
-      security:
-        - jwt: []
-        - api_key: []
-      description: syncs (creates) candles for the instrument in specified timeframe(granularity)
-      operationId: createCandles
-      parameters:
-        - name: createCandlesRequest
-          description: the instrument and granularity of the candles
-          in: body
-          required: true
-          schema:
-            $ref: "#/definitions/CreateCanldesRequest"      
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/EventResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"            
+         
   /instruments:
     x-swagger-router-controller: instrument.controller
     get:
@@ -170,9 +98,9 @@ paths:
         - application/json
       operationId: getInstruments
       parameters: 
-        - name: _id
+        - name: title
           in: query
-          description: The id of a specific instrument
+          description: The title of a specific instrument
           required: false
           type: string
       responses:

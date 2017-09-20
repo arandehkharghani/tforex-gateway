@@ -1,3 +1,3 @@
 export enum GranularityEnum {
-    M5
+    M5,
 }
