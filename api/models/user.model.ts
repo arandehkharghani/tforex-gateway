@@ -6,14 +6,14 @@ let owasp = require('owasp-password-strength-test');
 import * as api from '../../api';
 
 
-let mongoose = api.DataAccess.mongooseInstance;
+let mongoose = api.helpers.DataAccess.mongooseInstance;
 
 interface UserOperation {
     authenticate(password: string): boolean;
     hashPassword(password: string): string;
 }
 
-export interface UserModel extends api.User, UserOperation, Document { }
+export interface UserModel extends api.interfaces.User, UserOperation, Document { }
 
 const validateLocalStrategyProperty = function (property) {
     return ((this.provider !== 'local' && !this.updated) || property.length);

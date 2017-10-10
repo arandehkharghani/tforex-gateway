@@ -2,7 +2,7 @@ import * as api from '../../api';
 
 export async function create(req, res, next) {
     try {
-        let traderProxy = new api.TraderM5ProxyService();
+        let traderProxy = new api.proxies.TraderM5ProxyService();
         let result = await traderProxy.create(req.body);
     } catch (err) {
         res.statusCode = 502; // bad gateway
@@ -23,7 +23,7 @@ export async function get(req, res, next) {
         if (req.swagger.params && req.swagger.params._id) {
             _id = req.swagger.params._id.value;
         }
-        let traderProxy = new api.TraderM5ProxyService();
+        let traderProxy = new api.proxies.TraderM5ProxyService();
         let result = await traderProxy.get(userId, _id);
         res.json(result.body);
     } catch (err) {

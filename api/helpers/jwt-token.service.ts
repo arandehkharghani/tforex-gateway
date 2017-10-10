@@ -4,7 +4,7 @@ import * as uuid from 'uuid';
 import * as api from '../../api';
 
 export class JwtTokenService {
-    public signToken(user: api.UserModel): JwtTokenServiceData {
+    public signToken(user: api.models.UserModel): JwtTokenServiceData {
         if (!user || !user.id) {
             throw new Error('user is not defined to sign the jwt token');
         }
@@ -25,12 +25,12 @@ export class JwtTokenService {
             user: userInPayload,
         };
         let options: jwt.SignOptions = {
-            expiresIn: api.Config.settings.expiration_jwt_minutes * 60,
+            expiresIn: api.helpers.Config.settings.expiration_jwt_minutes * 60,
             issuer: 'tforex-gateway',
             jwtid: 'uniqueId',
             subject: user.id.toString(),
         };
-        let token = jwt.sign(payload, api.Config.settings.jwt_secret, options);
+        let token = jwt.sign(payload, api.helpers.Config.settings.jwt_secret, options);
 
         let result: JwtTokenServiceData = {
             jwt: token,
@@ -41,11 +41,11 @@ export class JwtTokenService {
     }
     public verifyToken(token: string, next: (err: Error, payload: any) => void) {
         let options: jwt.SignOptions = {
-            expiresIn: api.Config.settings.expiration_jwt_minutes * 60,
+            expiresIn: api.helpers.Config.settings.expiration_jwt_minutes * 60,
             issuer: 'tforex-gateway',
             jwtid: 'uniqueId',
         };
-        jwt.verify(token, api.Config.settings.jwt_secret, options, next);
+        jwt.verify(token, api.helpers.Config.settings.jwt_secret, options, next);
     }
 }
 

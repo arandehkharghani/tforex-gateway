@@ -3,15 +3,18 @@ import * as request from 'request';
 
 import * as api from '../../api';
 
-export class TraderM5ProxyService extends api.ProxyBaseService {
+export class TraderM5ProxyService extends api.proxies.ProxyBaseService {
     constructor() {
-        super(api.Config.settings.trader_M5_base_path);
+        super(api.helpers.Config.settings.trader_M5_base_path);
     }
     /*
     * adds a new trader-m5 for a user using the strategy passed
     * @param body the required input for the event to create
     */
-    public create(payload: api.TraderEventPayload): Promise<{ response: http.ClientResponse; body: api.EventResponse; }> {
+    public create(payload: api.interfaces.TraderEventPayload): Promise<{
+        response: http.ClientResponse;
+        body: api.interfaces.EventResponse;
+    }> {
         const localVarPath = this.basePath + '/traders';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -46,7 +49,7 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: api.EventResponse; }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: api.interfaces.EventResponse; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -66,7 +69,7 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
     * @param userId the owner of the traders
     * @param id the optional trader id
     */
-    public get(userId: string, id?: string): Promise<{ response: http.ClientResponse; body: Array<api.TraderQuery>; }> {
+    public get(userId: string, id?: string): Promise<{ response: http.ClientResponse; body: Array<api.interfaces.TraderQuery>; }> {
         const localVarPath = this.basePath + '/traders';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -108,7 +111,7 @@ export class TraderM5ProxyService extends api.ProxyBaseService {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<api.TraderQuery>; }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: Array<api.interfaces.TraderQuery>; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);

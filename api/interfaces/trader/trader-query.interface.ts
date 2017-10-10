@@ -12,7 +12,7 @@ export interface TraderQuery {
     /**
     * the last status of the trader
     */
-    status: api.TraderStatusEnum;
+    status: api.enums.TraderStatusEnum;
     /**
     * the version number of the trader
     */
@@ -20,7 +20,7 @@ export interface TraderQuery {
     /**
     * the instrument that the trader is using
     */
-    instrument: api.InstrumentEnum;
+    instrument: api.enums.InstrumentEnum;
     /**
     * the owner of the trader
     */

@@ -4,17 +4,17 @@ import * as api from './api';
 let swaggerExpress = require('swagger-express-mw');
 let cors = require('cors');
 let app = require('express')();
-let jwtService = new api.JwtTokenService();
+let jwtService = new api.helpers.JwtTokenService();
 module.exports = app; // for testing
 let port = process.env.PORT || 10020;
 
-api.Google.use();
+api.helpers.Google.use();
 app.use(passport.initialize());
 app.use(cookieParser());
 
 export let swaggerConfig = {
   appRoot: __dirname, // required config
-  swaggerSecurityHandlers: api.swaggerSecurityConfig,
+  swaggerSecurityHandlers: api.helpers.swaggerSecurityConfig,
 };
 
 let corsOptions = {
@@ -57,11 +57,11 @@ swaggerExpress.create(swaggerConfig, function (err, swagger) {
     function (req, res, next) {
       passport.authenticate('google', {
         session: false,
-        failureRedirect: api.Config.settings.ui_base_path,
+        failureRedirect: api.helpers.Config.settings.ui_base_path,
       },
-        function (error, user: api.UserModel, info) {
+        function (error, user: api.models.UserModel, info) {
           if (error) { return next(error); }
-          if (!user) { return res.redirect(api.Config.settings.ui_base_path); }
+          if (!user) { return res.redirect(api.helpers.Config.settings.ui_base_path); }
           try {
             let token = jwtService.signToken(user);
             // to prevent from csrf attack we sent back a XSRF-TOKEN in a cookie
@@ -71,7 +71,7 @@ swaggerExpress.create(swaggerConfig, function (err, swagger) {
             if (user.roles && user.roles.indexOf('admin') > -1) {
               isAdmin = 'true';
             }
-            return res.redirect(`${api.Config.settings.ui_base_path}/#/login?user_id=${user.id}&is_admin=${isAdmin}`);
+            return res.redirect(`${api.helpers.Config.settings.ui_base_path}/#/login?user_id=${user.id}&is_admin=${isAdmin}`);
           } catch (err) {
             return next(err);
           }

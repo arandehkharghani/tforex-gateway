@@ -3,16 +3,16 @@ import * as request from 'request';
 
 import * as api from '../../api';
 
-export class InstrumentProxyService extends api.ProxyBaseService {
+export class InstrumentProxyService extends api.proxies.ProxyBaseService {
     constructor() {
-        super(api.Config.settings.instruments_base_path);
+        super(api.helpers.Config.settings.instruments_base_path);
     }
     /**
     *
     * Returns a list of instruments or a single one if provided the title
     * @param title The title of a specific instrument
     */
-    public getInstruments(title?: string): Promise<{ response: http.ClientResponse; body: api.Instrument[]; }> {
+    public getInstruments(title?: string): Promise<{ response: http.ClientResponse; body: api.interfaces.Instrument[]; }> {
         const localVarPath = this.basePath + '/instruments';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -45,7 +45,7 @@ export class InstrumentProxyService extends api.ProxyBaseService {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: api.Instrument[]; }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: api.interfaces.Instrument[]; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);

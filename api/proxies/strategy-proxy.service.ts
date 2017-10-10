@@ -3,11 +3,11 @@ import * as request from 'request';
 
 import * as api from '../../api';
 
-export class StrategyProxyService extends api.ProxyBaseService {
+export class StrategyProxyService extends api.proxies.ProxyBaseService {
     constructor() {
-        super(api.Config.settings.strategies_base_path);
+        super(api.helpers.Config.settings.strategies_base_path);
     }
-    public async get(id: string | null = null): Promise<{ response: http.ClientResponse, body: api.Strategy[]; }> {
+    public async get(id: string | null = null): Promise<{ response: http.ClientResponse, body: api.interfaces.Strategy[]; }> {
         const localVarPath = this.basePath + '/strategies';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -40,7 +40,7 @@ export class StrategyProxyService extends api.ProxyBaseService {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: api.Strategy[]; }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: api.interfaces.Strategy[]; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -55,7 +55,7 @@ export class StrategyProxyService extends api.ProxyBaseService {
         });
     }
 
-    public async create(strategy: api.Strategy): Promise<{ response: http.ClientResponse; body: api.Strategy; }> {
+    public async create(strategy: api.interfaces.Strategy): Promise<{ response: http.ClientResponse; body: api.interfaces.Strategy; }> {
         const localVarPath = this.basePath + '/strategies';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -88,7 +88,7 @@ export class StrategyProxyService extends api.ProxyBaseService {
                 requestOptions.form = formParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: api.Strategy; }>((resolve, reject) => {
+        return new Promise<{ response: http.ClientResponse; body: api.interfaces.Strategy; }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);

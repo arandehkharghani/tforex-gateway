@@ -7,9 +7,9 @@ export class Google {
     public static use() {
         // Use google strategy
         let options = {
-            clientID: api.Config.settings.google.clientId,
-            clientSecret: api.Config.settings.google.clientSecret,
-            callbackURL: api.Config.settings.google.callbackUrl,
+            clientID: api.helpers.Config.settings.google.clientId,
+            clientSecret: api.helpers.Config.settings.google.clientSecret,
+            callbackURL: api.helpers.Config.settings.google.callbackUrl,
             // passReqToCallback: true
         };
 
@@ -23,7 +23,7 @@ export class Google {
                 providerData.refreshToken = refreshToken;
 
                 // Create the user OAuth profile
-                let providerUserProfile: api.User = {
+                let providerUserProfile: api.interfaces.User = {
                     firstName: profile.name ? profile.name.givenName : 'undefined',
                     lastName: profile.name ? profile.name.familyName : 'undefined',
                     displayName: profile.displayName,
@@ -34,7 +34,7 @@ export class Google {
                     // providerIdentifierField: 'id',
                     providerData: providerData,
                 };
-                let userService: api.UserService = new api.UserService();
+                let userService: api.services.UserService = new api.services.UserService();
                 // Save the user OAuth profile
                 userService.findOrCreate(providerUserProfile.email, providerUserProfile).then(
                     user => {

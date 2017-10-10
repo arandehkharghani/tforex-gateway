@@ -9,5 +9,5 @@ export interface TraderEventPayload {
     * the owner of the trader
     */
     userId: string;
-    instrument: api.InstrumentEnum;
+    instrument: api.enums.InstrumentEnum;
 }

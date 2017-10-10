@@ -2,7 +2,7 @@ import * as passport from 'passport';
 
 import * as api from '../../api';
 
-let jwtService = new api.JwtTokenService();
+let jwtService = new api.helpers.JwtTokenService();
 
 export let swaggerSecurityConfig = {
     oauth2_google: function (req, authOrSecDef, scopesOrApiKey, callback) {

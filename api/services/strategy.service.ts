@@ -1,15 +1,14 @@
 import * as api from '../../api';
 
 export class StrategyService {
-    public async get(strategies: api.Strategy[]): Promise<api.StrategyQuery[]> {
-        let result: api.StrategyQuery[] = [];
-        let userService: api.UserService = new api.UserService();
-
+    public async get(strategies: api.interfaces.Strategy[]): Promise<api.interfaces.StrategyQuery[]> {
+        let result: api.interfaces.StrategyQuery[] = [];
+        let userService: api.services.UserService = new api.services.UserService();
         for (let strategy of strategies) {
             let user = await userService.get(strategy.postedBy);
             let displayName = '';
-            if (user instanceof api.userModel) {
-                displayName = (<api.UserModel>user).displayName;
+            if (user instanceof api.models.userModel) {
+                displayName = (<api.models.UserModel>user).displayName;
             }
 
             result.push({

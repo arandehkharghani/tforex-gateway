@@ -7,8 +7,7 @@ export async function getInstruments(req, res, next) {
         title = req.swagger.params.title.value;
     }
 
-    let instrumentProxy = new api.InstrumentProxyService();
-
+    let instrumentProxy = new api.proxies.InstrumentProxyService();
     try {
         let result = await instrumentProxy.getInstruments(title);
         res.json(result.body);

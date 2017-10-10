@@ -7,8 +7,8 @@ export async function getStrategies(req, res, next) {
         _id = req.swagger.params._id.value;
     }
 
-    let strategyProxy = new api.StrategyProxyService();
-    let strategyService = new api.StrategyService();
+    let strategyProxy = new api.proxies.StrategyProxyService();
+    let strategyService = new api.services.StrategyService();
 
     try {
         let result = await strategyProxy.get(_id);
@@ -21,7 +21,7 @@ export async function getStrategies(req, res, next) {
 }
 export async function postStrategies(req, res) {
     // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
-    let strategyProxy = new api.StrategyProxyService();
+    let strategyProxy = new api.proxies.StrategyProxyService();
     try {
         let result = await strategyProxy.create(req.body);
         /*
