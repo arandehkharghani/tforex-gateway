@@ -85,3 +85,4 @@ $RECYCLE.BIN/
 
 # app_setting that may contain sensitive information
 api/helpers/app-settings.ts
+.vscode
